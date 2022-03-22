@@ -18,10 +18,10 @@ public class Todo extends DateEntity {
     @Column(name = "TODO_ID")
     private Long id;
 
-    @Lob // text
+    @Column(nullable = false) // text
     private String content; // 내용
 
-    @Column(name = "MEMBER_ID")
+    @Column(name = "MEMBER_ID", nullable = false)
     private String writer; // 작성자 -> Member
 
     @Convert(converter = TodoCheckedConverter.class)
