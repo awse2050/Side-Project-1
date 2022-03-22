@@ -1,7 +1,7 @@
-package com.example.check.domains.todo.entity;
+package com.example.check.api.domains.todo.entity;
 
-import com.example.check.util.converter.TodoCheckedConverter;
-import com.example.check.util.entity.DateEntity;
+import com.example.check.api.util.converter.TodoCheckedConverter;
+import com.example.check.api.util.entity.DateEntity;
 import lombok.*;
 
 import javax.persistence.*;

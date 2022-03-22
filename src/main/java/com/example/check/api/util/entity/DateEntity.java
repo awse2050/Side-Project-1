@@ -1,4 +1,4 @@
-package com.example.check.util.entity;
+package com.example.check.api.util.entity;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

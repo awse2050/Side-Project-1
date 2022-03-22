@@ -1,4 +1,4 @@
-package com.example.check.util.converter;
+package com.example.check.api.util.converter;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
