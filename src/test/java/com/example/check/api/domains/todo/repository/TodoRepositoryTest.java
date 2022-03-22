@@ -1,6 +1,6 @@
-package com.example.check.domains.todo.repository;
+package com.example.check.api.domains.todo.repository;
 
-import com.example.check.domains.todo.entity.Todo;
+import com.example.check.api.domains.todo.entity.Todo;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;

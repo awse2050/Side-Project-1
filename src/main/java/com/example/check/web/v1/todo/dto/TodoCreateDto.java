@@ -1,6 +1,6 @@
-package com.example.check.domains.todo.dto;
+package com.example.check.web.v1.todo.dto;
 
-import com.example.check.domains.todo.entity.Todo;
+import com.example.check.api.domains.todo.entity.Todo;
 import lombok.*;
 
 @AllArgsConstructor
