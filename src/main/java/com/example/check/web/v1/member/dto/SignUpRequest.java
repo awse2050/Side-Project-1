@@ -16,7 +16,7 @@ public class SignUpRequest {
     @Email(message = "올바른 이메일 형식을 입력하세요.")
     private String email;
     @NotBlank
-    @Size(min = 4, max = 12, message = "4~12")
+    @Size(min = 4, max = 12, message = "최소4자, 최대12자까지 가능합니다.")
     private String password;
     @NotBlank(message = "이름을 정확히 입력하세요.")
     private String name;
