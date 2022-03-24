@@ -8,3 +8,4 @@
 * Spring Boot 2.6.4
 * Spring Data JPA
 * H2 (Local)
+* Spring Security
