@@ -1,5 +1,7 @@
 package com.example.check.api.domains.member.config;
 
+import com.example.check.api.domains.member.service.MemberDetailsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -9,7 +11,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final MemberDetailsService memberDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -31,8 +36,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(loginAuthenticationProvider());
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public LoginAuthenticationProvider loginAuthenticationProvider() {
+        return new LoginAuthenticationProvider(memberDetailsService, passwordEncoder());
     }
 }

@@ -22,12 +22,14 @@ public class MemberDetailsService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
 
+    private static final String USER_NOT_FOUND_MESSAGE = "없는 사용자 입니다.";
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         log.info("email : {}", email);
 
         Member findMember = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("없는 사용자 입니다."));
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
 
         log.info("findMember : {} ", findMember);
 
