@@ -17,10 +17,10 @@ public abstract class DateEntity {
 
     @CreatedDate
     @Column(name = "regdate", nullable = false)
-    private LocalDateTime regdate;
+    private LocalDateTime regDate;
 
     @LastModifiedDate
     @Column(name = "moddate", nullable = false)
-    private LocalDateTime moddate;
+    private LocalDateTime modDate;
 
 }
