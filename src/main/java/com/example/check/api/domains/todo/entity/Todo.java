@@ -1,17 +1,20 @@
 package com.example.check.api.domains.todo.entity;
 
+import com.example.check.api.domains.comment.entity.Comment;
 import com.example.check.api.util.converter.TodoCheckedConverter;
 import com.example.check.api.util.entity.DateEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Getter
-@ToString
 @Entity
+@ToString
 public class Todo extends DateEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,10 +25,19 @@ public class Todo extends DateEntity {
     private String content; // 내용
 
     @Column(name = "MEMBER_ID", nullable = false)
-    private String writer; // 작성자 -> Member
+    private String writer;
 
     @Convert(converter = TodoCheckedConverter.class)
     private boolean checked;
+
+    @OneToMany(mappedBy = "todo", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @Builder.Default
+    private List<Comment> comments = new ArrayList<>();
+
+    public void addComments(Comment comment) {
+        this.comments.add(comment);
+        comment.setTodo(this);
+    }
 
     public void changeContent(String content) {
         this.content = content;

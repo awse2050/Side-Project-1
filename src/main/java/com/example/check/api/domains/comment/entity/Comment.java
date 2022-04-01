@@ -6,12 +6,12 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-@ToString
 @Getter
+@Entity
+@ToString
 public class Comment extends DateEntity {
 
     @Id
@@ -23,11 +23,15 @@ public class Comment extends DateEntity {
     private String content;
 
     @Column(nullable = false)
-    private String writer; // 작성자 -> Member
+    private String writer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TODO_ID")
     private Todo todo;
+
+    public void setTodo(Todo todo) {
+        this.todo = todo;
+    }
 
     public void changeContent(String content) {
         this.content = content;
