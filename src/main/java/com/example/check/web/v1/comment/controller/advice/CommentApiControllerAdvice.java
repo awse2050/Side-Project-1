@@ -1,5 +1,6 @@
 package com.example.check.web.v1.comment.controller.advice;
 
+import com.example.check.api.domains.todo.exception.TodoNotFoundException;
 import com.example.check.web.v1.comment.controller.CommentApiController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,4 +16,8 @@ public class CommentApiControllerAdvice {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(TodoNotFoundException.class)
+    public ResponseEntity<String> todoNotFoundExceptionHandler(RuntimeException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }

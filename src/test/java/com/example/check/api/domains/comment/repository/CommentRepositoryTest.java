@@ -7,8 +7,11 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -29,13 +32,32 @@ class CommentRepositoryTest {
 
     @BeforeEach
     public void INSERT_TODO() {
-        Todo todoEntity = Todo.builder()
-                .content("오늘의 할일입니다.")
-                .checked(false)
-                .writer("작성자2")
-                .build();
+//        Todo todoEntity = Todo.builder()
+//                .content("오늘의 할일입니다.")
+//                .checked(false)
+//                .writer("작성자2")
+//                .build();
+//
+//        todoRepository.save(todoEntity);
+        for(int j=0; j<20; j++) {
+            Todo entity = Todo.builder()
+                    .content("todo"+j)
+                    .writer("writer"+j)
+                    .checked(false)
+                    .build();
+            for(int i=0; i<=5; i++) {
+                entity.addComments(Comment.builder().content("안녕하세요."+i).writer("작성자"+i).todo(entity).build());
+            }
+            todoRepository.save(entity);
+        }
+    }
 
-        todoRepository.save(todoEntity);
+    @Test
+    public void test() {
+        List<Comment> all = commentRepository.findAll();
+        for (Comment comment : all) {
+            log.info(comment.getTodo().getContent());
+        }
     }
 
     @DisplayName("Comment Insert Test")
@@ -47,11 +69,9 @@ class CommentRepositoryTest {
 
         Long commentId = commentRepository.save(entity).getId();
 
-        assertThat(commentId).isEqualTo(id);
+        entity = commentRepository.findById(commentId).get();
 
-        entity = commentRepository.findById(id).get();
-
-        assertThat(entity.getTodo().getContent()).isEqualTo("오늘의 할일입니다.");
+//        assertThat(entity.getTodo().getContent()).isEqualTo("오늘의 할일입니다.");
     }
 
     @DisplayName("findById Test")
