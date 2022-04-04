@@ -28,10 +28,6 @@ public class Comment extends DateEntity {
     @JoinColumn(name = "TODO_ID")
     private Todo todo;
 
-    public void setTodo(Todo todo) {
-        this.todo = todo;
-    }
-
     public void changeContent(String content) {
         this.content = content;
     }
