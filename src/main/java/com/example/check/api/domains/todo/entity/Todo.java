@@ -35,7 +35,6 @@ public class Todo extends DateEntity {
 
     public void addComments(Comment comment) {
         this.comments.add(comment);
-        comment.setTodo(this);
     }
 
     public void changeContent(String content) {

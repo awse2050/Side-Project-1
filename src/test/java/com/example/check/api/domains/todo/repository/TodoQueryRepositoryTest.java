@@ -28,21 +28,6 @@ class TodoQueryRepositoryTest {
     @Autowired
     private TodoQueryRepository todoQueryRepository;
 
-    @BeforeEach
-    public void BEFORE_INSERT() {
-        for(int j=0; j<20; j++) {
-            Todo entity = Todo.builder()
-                    .content("todo"+j)
-                    .writer("writer"+j)
-                    .checked(false)
-                    .build();
-            for(int i=0; i<=5; i++) {
-                entity.addComments(Comment.builder().content("안녕하세요."+i).writer("작성자"+i).todo(entity).build());
-            }
-            todoRepository.save(entity);
-        }
-    }
-
     @DisplayName("findAll By Paging Query Test")
     @Test
     public void QUERYDSL_FIND_ALL_BY_PAGING_TEST() {
@@ -60,12 +45,10 @@ class TodoQueryRepositoryTest {
     public void QUERYDSL_FIND_ALL_TEST() {
         todoQueryRepository.todosFindAll()
                 .forEach(todo -> {
-                    log.info("todo.getId() : {}", todo.getId());
                     List<Comment> comments = todo.getComments();
-                    log.info("comments.size : {}", comments.size());
 
                     comments.forEach(comment -> {
-                        log.info("comment.getId() : {}", comment.getId());
+                        comment.getId();
                     });
                 });
     }
