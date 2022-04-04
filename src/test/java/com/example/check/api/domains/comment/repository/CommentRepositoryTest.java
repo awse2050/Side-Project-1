@@ -1,13 +1,11 @@
 package com.example.check.api.domains.comment.repository;
 
 import com.example.check.api.domains.comment.entity.Comment;
-import com.example.check.api.domains.todo.entity.Todo;
 import com.example.check.api.domains.todo.repository.TodoRepository;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +36,27 @@ class CommentRepositoryTest {
         for (Comment comment : all) {
             comment.getTodo().getContent();
         }
+    }
+
+    @DisplayName("find All JPQL Test")
+    @Test
+    @Order(6)
+    public void JPQL_FIND_ALL_TEST() {
+        List<Comment> allWithTodo = commentRepository.findAllWithTodoJoinFetch();
+
+        allWithTodo.forEach(comment -> {
+            comment.getTodo().getComments();
+        });
+    }
+
+    @DisplayName("find ALL EntityGraph Test")
+    @Test
+    public void ENTITY_GRAPH_FIND_ALL_TEST() {
+        List<Comment> allWithTodo = commentRepository.findAllWithTodo();
+
+        allWithTodo.forEach(comment -> {
+            comment.getTodo().getComments();
+        });
     }
 
     @DisplayName("Comment Insert Test")
