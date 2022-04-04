@@ -30,26 +30,13 @@ class TodoRepositoryTest {
 
     final Long id = 1L;
 
-    @BeforeEach
-    void BEFORE_CREATE_ENTITY() {
-        for(int j=0; j<3; j++) {
-            Todo entity = Todo.builder()
-                    .content("todo"+j)
-                    .writer("writer"+j)
-                    .checked(false)
-                    .build();
-            for(int i=0; i<=5; i++) {
-                entity.addComments(Comment.builder().content("안녕하세요."+i).writer("작성자"+i).todo(entity).build());
-            }
-            todoRepository.save(entity);
-        }
-    }
-
+    @DisplayName("FindAll Test - N+1 Execute")
     @Test
+    @Order(4)
     public void test() {
         List<Todo> all = todoRepository.findAll();
         for (Todo todo : all) {
-            log.info(todo.getComments().size());
+            todo.getComments().size();
         }
     }
 
@@ -110,7 +97,7 @@ class TodoRepositoryTest {
      */
     @DisplayName("todo Delete Test")
     @Test
-    @Order(4)
+    @Order(5)
     void DELETE_TEST() {
         commentRepository.deleteByTodoId(id); // JPQL
         todoRepository.deleteById(id);

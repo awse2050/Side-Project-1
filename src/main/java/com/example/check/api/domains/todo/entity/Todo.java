@@ -14,7 +14,6 @@ import java.util.List;
 @Builder
 @Getter
 @Entity
-@ToString
 public class Todo extends DateEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
