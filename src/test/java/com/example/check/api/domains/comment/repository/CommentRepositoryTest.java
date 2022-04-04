@@ -30,33 +30,13 @@ class CommentRepositoryTest {
 
     private final Long id = 1L;
 
-    @BeforeEach
-    public void INSERT_TODO() {
-//        Todo todoEntity = Todo.builder()
-//                .content("오늘의 할일입니다.")
-//                .checked(false)
-//                .writer("작성자2")
-//                .build();
-//
-//        todoRepository.save(todoEntity);
-        for(int j=0; j<20; j++) {
-            Todo entity = Todo.builder()
-                    .content("todo"+j)
-                    .writer("writer"+j)
-                    .checked(false)
-                    .build();
-            for(int i=0; i<=5; i++) {
-                entity.addComments(Comment.builder().content("안녕하세요."+i).writer("작성자"+i).todo(entity).build());
-            }
-            todoRepository.save(entity);
-        }
-    }
-
+    @DisplayName("FindAll Tests - N+1 Query Execute")
     @Test
-    public void test() {
+    @Order(5)
+    public void FIND_ALL_TEST() {
         List<Comment> all = commentRepository.findAll();
         for (Comment comment : all) {
-            log.info(comment.getTodo().getContent());
+            comment.getTodo().getContent();
         }
     }
 

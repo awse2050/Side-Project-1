@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Builder
 @Getter
 @Entity
-@ToString
 public class Comment extends DateEntity {
 
     @Id
