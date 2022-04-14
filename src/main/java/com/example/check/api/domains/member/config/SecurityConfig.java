@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 @Configuration
 @RequiredArgsConstructor
@@ -34,6 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .csrf().disable();
 
+        http.addFilter(jwtAuthenticationFilter());
     }
 
     @Override
@@ -49,5 +52,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public LoginAuthenticationProvider loginAuthenticationProvider() {
         return new LoginAuthenticationProvider(memberDetailsService, passwordEncoder());
+    }
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
+        return new JwtAuthenticationFilter(authenticationManager());
     }
 }

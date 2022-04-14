@@ -1,8 +1,9 @@
 package com.example.check.api.domains.member.config;
 
-import com.example.check.api.domains.member.dto.LoginCheckDto;
+import com.example.check.api.domains.member.dto.ResponseLoginDto;
 import com.example.check.api.domains.member.service.MemberDetailsService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,6 +12,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RequiredArgsConstructor
+@Log4j2
 public class LoginAuthenticationProvider implements AuthenticationProvider {
 
     private final MemberDetailsService memberDetailsService;
@@ -20,17 +22,18 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-
+        // 인증 처리 이후의 인증토큰.
         String email = authentication.getName();
+
         String password = (String) authentication.getCredentials();
 
-        LoginCheckDto loginCheckDto = (LoginCheckDto) memberDetailsService.loadUserByUsername(email);
+        ResponseLoginDto responseLoginDto = (ResponseLoginDto) memberDetailsService.loadUserByUsername(email);
 
-        if(!checkPassword(password, loginCheckDto.getPassword())) {
+        if(!checkPassword(password, responseLoginDto.getPassword())) {
             throw new BadCredentialsException(AUTHENTICATE_DEFAULT_MESSAGE);
         }
 
-        return new UsernamePasswordAuthenticationToken(loginCheckDto, password, loginCheckDto.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(responseLoginDto, password, responseLoginDto.getAuthorities());
     }
 
     @Override
