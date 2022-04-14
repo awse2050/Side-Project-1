@@ -1,6 +1,6 @@
 package com.example.check.api.domains.member.service;
 
-import com.example.check.api.domains.member.dto.LoginCheckDto;
+import com.example.check.api.domains.member.dto.ResponseLoginDto;
 import com.example.check.api.domains.member.entity.Member;
 import com.example.check.api.domains.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,15 +33,15 @@ public class MemberDetailsService implements UserDetailsService {
 
         log.info("findMember : {} ", findMember);
 
-        LoginCheckDto loginCheckDto = new LoginCheckDto(findMember.getEmail(),
+        ResponseLoginDto responseLoginDto = new ResponseLoginDto(findMember.getEmail(),
+                findMember.getName(),
                 findMember.getPassword(),
                 findMember.getMemberRoles().stream()
                         .map(role -> new SimpleGrantedAuthority(role.getRole().getName()))
                         .collect(Collectors.toSet()));
 
-        loginCheckDto.setName(findMember.getName());
-        log.info("loginCheckDto : {}", loginCheckDto);
+        log.info("loginCheckDto : {}", responseLoginDto);
 
-        return loginCheckDto;
+        return responseLoginDto;
     }
 }

@@ -8,18 +8,15 @@ import org.springframework.security.core.userdetails.User;
 import java.util.Collection;
 
 @Getter
-public class LoginCheckDto extends User {
+public class ResponseLoginDto extends User {
 
     // TODO : Validation 추가
     private String email;
     private String name;
 
-    public LoginCheckDto(String username, String password, Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, authorities);
-        this.email = username;
-    }
-
-    public void setName(String name) {
+    public ResponseLoginDto(String email, String name, String password, Collection<? extends GrantedAuthority> authorities) {
+        super(email, password, authorities);
+        this.email = email;
         this.name = name;
     }
 }
