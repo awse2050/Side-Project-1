@@ -3,9 +3,9 @@ package com.example.check.api.domains.member.config;
 import com.example.check.api.domains.member.dto.AttemptLoginDto;
 import com.example.check.api.domains.member.dto.ResponseLoginDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.Jwts;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -36,30 +36,28 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
-
         try {
-            AttemptLoginDto attemptLoginDto = new ObjectMapper().readValue(request.getInputStream(), AttemptLoginDto.class);
+            AttemptLoginDto attemptLoginDto = new ObjectMapper().
+                    readValue(request.getInputStream(), AttemptLoginDto.class);
 
-            return getAuthenticationManager().authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            attemptLoginDto.getEmail(),
-                            attemptLoginDto.getPassword()
-                    )
-            );
+            return getAuthenticationManager().authenticate(attemptLoginDto.bindToAuthenticationToken());
         } catch (IOException e) {
+            // TODO : 예외 추가
             throw new RuntimeException(e);
         }
     }
 
-    // 인증이 성공되면 해당 메서드 호출
+    // 인증이 성공(UserDetailsService)되면 해당 메서드 호출
     @Override
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
         log.info("success Login...");
-        log.info(((ResponseLoginDto) authResult.getPrincipal()));
-        log.info(((ResponseLoginDto) authResult.getPrincipal()).getEmail());
+        ResponseLoginDto authenticationUser = (ResponseLoginDto) authResult.getPrincipal();
+        String jwtToken = JwtProvider.createToken(authenticationUser.getEmail());
+        log.info("jwtToken : {}", jwtToken);
 
+        response.setHeader("token", jwtToken);
     }
 }
