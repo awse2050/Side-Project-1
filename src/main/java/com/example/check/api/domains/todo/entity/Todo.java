@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Getter
+@ToString(exclude = {"attach", "comments"})
 @Entity
 public class Todo extends DateEntity {
 
@@ -30,12 +31,18 @@ public class Todo extends DateEntity {
     @Convert(converter = TodoCheckedConverter.class)
     private boolean checked;
 
-    @OneToOne(mappedBy = "todo", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "todo", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Attach attach;
 
     @OneToMany(mappedBy = "todo", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @Builder.Default
     private List<Comment> comments = new ArrayList<>();
+
+    public Todo(Attach attach) {
+        this.attach = attach;
+        this.content = "default content1";
+        this.writer = "default writer1";
+    }
 
     public void addComments(Comment comment) {
         this.comments.add(comment);
