@@ -1,5 +1,6 @@
 package com.example.check.api.domains.attach.entity;
 
+import com.example.check.api.domains.todo.entity.Todo;
 import com.example.check.api.util.entity.DateEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -19,6 +20,10 @@ public class Attach extends DateEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ATTACH_ID")
     private Long id;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "TODO_ID")
+    private Todo todo;
 
     @Column(name = "UPLOAD_FILE_NAME")
     private String uploadFileName;

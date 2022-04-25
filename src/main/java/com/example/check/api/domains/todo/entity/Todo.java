@@ -1,5 +1,6 @@
 package com.example.check.api.domains.todo.entity;
 
+import com.example.check.api.domains.attach.entity.Attach;
 import com.example.check.api.domains.comment.entity.Comment;
 import com.example.check.api.util.converter.TodoCheckedConverter;
 import com.example.check.api.util.entity.DateEntity;
@@ -28,6 +29,9 @@ public class Todo extends DateEntity {
 
     @Convert(converter = TodoCheckedConverter.class)
     private boolean checked;
+
+    @OneToOne(mappedBy = "todo", fetch = FetchType.LAZY)
+    private Attach attach;
 
     @OneToMany(mappedBy = "todo", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @Builder.Default
