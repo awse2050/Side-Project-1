@@ -9,13 +9,12 @@ import lombok.ToString;
 
 import javax.persistence.*;
 
-@ToString
+@ToString(exclude = "todo")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class Attach extends DateEntity {
 
-    // 번호, 할일 게시물번호, 업로드시 이름, 저장할 때 이름
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ATTACH_ID")
@@ -25,10 +24,18 @@ public class Attach extends DateEntity {
     @JoinColumn(name = "TODO_ID")
     private Todo todo;
 
-    @Column(name = "UPLOAD_FILE_NAME")
+    @Column(name = "UPLOAD_FILE_NAME", nullable = false)
     private String uploadFileName;
 
-    @Column(name = "TO_SAVED_FILE_NAME")
+    @Column(name = "TO_SAVED_FILE_NAME", nullable = false)
     private String toSavedFileName;
 
+    public Attach(String uploadFileName, String toSavedFileName) {
+        this.uploadFileName = uploadFileName;
+        this.toSavedFileName = toSavedFileName;
+    }
+
+    public void setTodo(Todo todo) {
+        this.todo = todo;
+    }
 }
