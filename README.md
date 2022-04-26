@@ -17,6 +17,8 @@
 
 - Attach ( S3로 변경 )
 
+- Jenkins (진행)
+
 ### 관련 이슈
 
 1. **벌크 삭제 및 Cascade, orphanRemoval 속성의 충돌.**
