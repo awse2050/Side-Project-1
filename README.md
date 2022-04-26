@@ -17,7 +17,7 @@
 
 - Attach ( S3로 변경 )
 
-- Jenkins (진행)
+- Jenkins (테스트)
 
 ### 관련 이슈
 
