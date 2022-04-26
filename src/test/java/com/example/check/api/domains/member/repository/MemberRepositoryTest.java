@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,6 +32,7 @@ class MemberRepositoryTest {
                 .email("ddd@naver.com")
                 .name("name..")
                 .password("1234")
+                .memberRoles(new HashSet<>())
                 .build();
 
         member.addRoles(MemberRole.builder().role(Role.MEMBER).member(member).build());
