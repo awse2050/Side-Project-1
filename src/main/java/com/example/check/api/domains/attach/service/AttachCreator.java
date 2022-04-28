@@ -20,20 +20,10 @@ import java.io.IOException;
 @Log4j2
 public class AttachCreator {
 
-    private final AttachRepository attachRepository;
     private final TodoRepository todoRepository;
     private final AttachFileStore attachFileStore;
 
-    @Transactional
-    public Long create(Attach attach) {
-        Attach save = attachRepository.save(attach);
-
-        log.info("save  : {}", save);
-
-        return save.getId();
-    }
-
-    @Transactional(rollbackFor = IOException.class)
+    @Transactional(rollbackFor = IOException.class, readOnly = false)
     public ResponseAttachFileDto create(MultipartFile multipartFile) throws IOException {
 
         Attach attach = attachFileStore.storeAttachFile(multipartFile)
@@ -41,7 +31,6 @@ public class AttachCreator {
         log.info("attach : {}", attach);
 
         Todo todo = new Todo(attach);
-        attach.setTodo(todo);
 
         todoRepository.save(todo);
 
