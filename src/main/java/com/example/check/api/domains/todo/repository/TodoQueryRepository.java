@@ -1,9 +1,10 @@
 package com.example.check.api.domains.todo.repository;
 
-import com.example.check.api.domains.comment.entity.QComment;
 import com.example.check.api.domains.todo.entity.Todo;
+import com.example.check.web.v1.comment.dto.CommentResponses;
 import com.example.check.web.v1.todo.dto.QTodoSearchDto;
 import com.example.check.web.v1.todo.dto.TodoSearchDto;
+import com.example.check.web.v1.todo.dto.TodoSelectDto;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.log4j.Log4j2;
@@ -13,9 +14,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
+import static com.example.check.api.domains.attach.entity.QAttach.attach;
 import static com.example.check.api.domains.comment.entity.QComment.*;
 import static com.example.check.api.domains.todo.entity.QTodo.todo;
 
@@ -43,14 +47,27 @@ public class TodoQueryRepository extends QuerydslRepositorySupport {
         return new PageImpl<>(todos, pageable, todos.size());
     }
 
-    public List<Todo> todosFindAll() {
-        List<Todo> todos = jpaQueryFactory.select(todo)
+    public  List<TodoSelectDto> todosFindAll() {
+        List<Todo> todos = jpaQueryFactory.selectDistinct(todo)
                 .from(todo)
                 .leftJoin(todo.comments, comment).fetchJoin()
+                .leftJoin(todo.attach, attach).fetchJoin()
                 .orderBy(todo.id.asc())
                 .fetch();
 
-        return todos;
+        /*
+            역할에 대한 고민
+         */
+        List<TodoSelectDto> dtoList = todos.stream().map(todo -> {
+
+            List<CommentResponses> commentCollections = new ArrayList<>();
+
+            todo.getComments().forEach(commentEntity -> commentCollections.add(new CommentResponses(commentEntity)));
+
+            return new TodoSelectDto(todo, commentCollections);
+        }).collect(Collectors.toList());
+
+        return dtoList;
     }
 
     /*

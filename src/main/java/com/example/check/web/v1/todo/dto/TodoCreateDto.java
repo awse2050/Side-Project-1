@@ -23,6 +23,7 @@ public class TodoCreateDto {
                 .content(this.content)
                 .writer(this.writer)
                 .checked(this.checked)
+                .attach(null)
                 .build();
     }
 }

@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Builder
 @Getter
 @Entity
+@ToString(exclude = "todo")
 public class Comment extends DateEntity {
 
     @Id
