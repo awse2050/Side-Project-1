@@ -42,6 +42,7 @@ public class Todo extends DateEntity {
         this.attach = attach;
         this.content = "default content1";
         this.writer = "default writer1";
+        attach.setTodo(this);
     }
 
     public void addComments(Comment comment) {
