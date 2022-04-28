@@ -1,17 +1,18 @@
 package com.example.check.web.v1.todo.controller;
 
 import com.example.check.api.domains.todo.service.TodoCreator;
+import com.example.check.api.domains.todo.service.TodoSelector;
 import com.example.check.web.v1.todo.dto.TodoCreateDto;
+import com.example.check.web.v1.todo.dto.TodoSelectDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/todo")
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TodoApiController {
 
     private final TodoCreator todoCreator;
+    private final TodoSelector todoSelector;
 
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> create(@RequestBody @Validated TodoCreateDto createDto) {
@@ -27,5 +29,11 @@ public class TodoApiController {
         Long id = todoCreator.createTodo(createDto);
         log.info("id : {}", id);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<TodoSelectDto>> selectAll() {
+        List<TodoSelectDto> dtoList = todoSelector.findAll();
+        return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
 }

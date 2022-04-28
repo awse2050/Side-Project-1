@@ -22,22 +22,4 @@ public class TodoCreator {
 
         return todoRepository.save(entity).getId();
     }
-
-    /**
-     *  N+1 테스트 데이터
-     */
-    @PostConstruct
-    void BEFORE_CREATE_ENTITY() {
-        for(int j=0; j<10; j++) {
-            Todo entity = Todo.builder()
-                    .content("todo"+j)
-                    .writer("writer"+j)
-                    .checked(false)
-                    .build();
-            for(int i=0; i<=5; i++) {
-                entity.addComments(Comment.builder().content("안녕하세요."+i).writer("작성자"+i).todo(entity).build());
-            }
-            todoRepository.save(entity);
-        }
-    }
 }
