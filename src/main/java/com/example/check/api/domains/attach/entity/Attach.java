@@ -2,6 +2,7 @@ package com.example.check.api.domains.attach.entity;
 
 import com.example.check.api.domains.todo.entity.Todo;
 import com.example.check.api.util.entity.DateEntity;
+import com.example.check.web.v1.attach.dto.AttachDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,5 +38,9 @@ public class Attach extends DateEntity {
 
     public void setTodo(Todo todo) {
         this.todo = todo;
+    }
+
+    public AttachDto bindToAttachDto() {
+        return new AttachDto(this.id, this.uploadFileName);
     }
 }

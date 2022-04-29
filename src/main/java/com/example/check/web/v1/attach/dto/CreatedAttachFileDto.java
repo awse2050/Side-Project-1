@@ -8,14 +8,14 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public class ResponseAttachFileDto {
+public class CreatedAttachFileDto {
 
     private Long attachId;
     private Long todoId;
     private String uploadFileName;
     private String toSavedFileName;
 
-    public ResponseAttachFileDto(Attach attach, Todo todo) {
+    public CreatedAttachFileDto(Attach attach, Todo todo) {
         this.attachId = attach.getId();
         this.todoId = todo.getId();
         this.uploadFileName = attach.getUploadFileName();

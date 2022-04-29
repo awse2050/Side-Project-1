@@ -2,6 +2,7 @@ package com.example.check.api.domains.comment.entity;
 
 import com.example.check.api.domains.todo.entity.Todo;
 import com.example.check.api.util.entity.DateEntity;
+import com.example.check.web.v1.comment.dto.CommentResponses;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,6 +32,14 @@ public class Comment extends DateEntity {
 
     public void changeContent(String content) {
         this.content = content;
+    }
+
+    public CommentResponses bindToDto() {
+        return new CommentResponses(this.id,
+                this.content,
+                this.writer,
+                this.getModDate()
+        );
     }
 
 }
