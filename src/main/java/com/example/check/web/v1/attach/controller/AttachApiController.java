@@ -1,8 +1,7 @@
 package com.example.check.web.v1.attach.controller;
 
-import com.example.check.api.domains.attach.entity.Attach;
 import com.example.check.api.domains.attach.service.AttachCreator;
-import com.example.check.web.v1.attach.dto.ResponseAttachFileDto;
+import com.example.check.web.v1.attach.dto.CreatedAttachFileDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -22,8 +21,8 @@ public class AttachApiController {
     private final AttachCreator attachCreator;
 
     @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ResponseAttachFileDto> upload(@RequestParam MultipartFile attachFile) throws IOException {
-        ResponseAttachFileDto attachFileDto = attachCreator.create(attachFile);
+    public ResponseEntity<CreatedAttachFileDto> upload(@RequestParam MultipartFile attachFile) throws IOException {
+        CreatedAttachFileDto attachFileDto = attachCreator.create(attachFile);
 
         return new ResponseEntity<>(attachFileDto, HttpStatus.CREATED);
     }

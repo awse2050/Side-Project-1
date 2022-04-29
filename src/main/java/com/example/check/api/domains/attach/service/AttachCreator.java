@@ -3,10 +3,9 @@ package com.example.check.api.domains.attach.service;
 import com.example.check.api.domains.attach.entity.Attach;
 import com.example.check.api.domains.attach.entity.AttachFileStore;
 import com.example.check.api.domains.attach.exception.FailAttachFileUploadException;
-import com.example.check.api.domains.attach.repository.AttachRepository;
 import com.example.check.api.domains.todo.entity.Todo;
 import com.example.check.api.domains.todo.repository.TodoRepository;
-import com.example.check.web.v1.attach.dto.ResponseAttachFileDto;
+import com.example.check.web.v1.attach.dto.CreatedAttachFileDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,7 @@ public class AttachCreator {
     private final AttachFileStore attachFileStore;
 
     @Transactional(rollbackFor = IOException.class, readOnly = false)
-    public ResponseAttachFileDto create(MultipartFile multipartFile) throws IOException {
+    public CreatedAttachFileDto create(MultipartFile multipartFile) throws IOException {
 
         Attach attach = attachFileStore.storeAttachFile(multipartFile)
                 .orElseThrow(() -> new FailAttachFileUploadException());
@@ -34,6 +33,6 @@ public class AttachCreator {
 
         todoRepository.save(todo);
 
-        return new ResponseAttachFileDto(attach, todo);
+        return new CreatedAttachFileDto(attach, todo);
     }
 }

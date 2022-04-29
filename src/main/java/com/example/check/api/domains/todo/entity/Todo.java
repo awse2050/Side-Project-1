@@ -4,6 +4,8 @@ import com.example.check.api.domains.attach.entity.Attach;
 import com.example.check.api.domains.comment.entity.Comment;
 import com.example.check.api.util.converter.TodoCheckedConverter;
 import com.example.check.api.util.entity.DateEntity;
+import com.example.check.web.v1.todo.dto.TodoDto;
+import com.example.check.web.v1.todo.dto.TodoSelectDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,7 +20,8 @@ import java.util.List;
 @Entity
 public class Todo extends DateEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TODO_ID")
     private Long id;
 
@@ -55,5 +58,13 @@ public class Todo extends DateEntity {
 
     public void changeChecked() {
         this.checked = !checked;
+    }
+
+    public TodoSelectDto bindToDto() {
+        return new TodoSelectDto(this, this.comments, this.attach);
+    }
+
+    public TodoDto bindToTodoDto() {
+        return new TodoDto(this.id, this.content, this.writer, this.checked);
     }
 }

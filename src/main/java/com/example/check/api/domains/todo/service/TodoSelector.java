@@ -17,12 +17,8 @@ public class TodoSelector {
 
     private final TodoQueryRepository todoQueryRepository;
 
-    /*
-        유효성 검사 추가필요
-     */
     public List<TodoSelectDto> findAll() {
         List<TodoSelectDto> todos = todoQueryRepository.todosFindAll();
-
         return todos;
     }
 }

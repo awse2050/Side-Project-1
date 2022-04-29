@@ -1,7 +1,6 @@
 package com.example.check.api.domains.todo.repository;
 
 import com.example.check.api.domains.todo.entity.Todo;
-import com.example.check.web.v1.comment.dto.CommentResponses;
 import com.example.check.web.v1.todo.dto.QTodoSearchDto;
 import com.example.check.web.v1.todo.dto.TodoSearchDto;
 import com.example.check.web.v1.todo.dto.TodoSelectDto;
@@ -14,13 +13,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.example.check.api.domains.attach.entity.QAttach.attach;
-import static com.example.check.api.domains.comment.entity.QComment.*;
+import static com.example.check.api.domains.comment.entity.QComment.comment;
 import static com.example.check.api.domains.todo.entity.QTodo.todo;
 
 @Repository
@@ -47,7 +45,7 @@ public class TodoQueryRepository extends QuerydslRepositorySupport {
         return new PageImpl<>(todos, pageable, todos.size());
     }
 
-    public  List<TodoSelectDto> todosFindAll() {
+    public List<TodoSelectDto> todosFindAll() {
         List<Todo> todos = jpaQueryFactory.selectDistinct(todo)
                 .from(todo)
                 .leftJoin(todo.comments, comment).fetchJoin()
@@ -55,19 +53,9 @@ public class TodoQueryRepository extends QuerydslRepositorySupport {
                 .orderBy(todo.id.asc())
                 .fetch();
 
-        /*
-            역할에 대한 고민
-         */
-        List<TodoSelectDto> dtoList = todos.stream().map(todo -> {
-
-            List<CommentResponses> commentCollections = new ArrayList<>();
-
-            todo.getComments().forEach(commentEntity -> commentCollections.add(new CommentResponses(commentEntity)));
-
-            return new TodoSelectDto(todo, commentCollections);
-        }).collect(Collectors.toList());
-
-        return dtoList;
+        return todos.stream()
+                .map(todo -> todo.bindToDto())
+                .collect(Collectors.toList());
     }
 
     /*
@@ -77,6 +65,7 @@ public class TodoQueryRepository extends QuerydslRepositorySupport {
         따라서 당연히 엔티티가 아닌 DTO 상태로 조회하는 것은 불가능.
         그냥 join만 선언할 것.
      */
+    // attach 처리필요.
     public List<TodoSearchDto> searchTodo(String searchContent) {
 
         List<TodoSearchDto> todos = jpaQueryFactory
@@ -95,7 +84,7 @@ public class TodoQueryRepository extends QuerydslRepositorySupport {
                 .where(isContainsContent(searchContent))
                 .orderBy(todo.id.desc())
                 .fetch();
-        
+
         return todos;
     }
 
