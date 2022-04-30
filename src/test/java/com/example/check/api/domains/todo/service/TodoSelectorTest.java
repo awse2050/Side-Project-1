@@ -1,13 +1,10 @@
 package com.example.check.api.domains.todo.service;
 
 import com.example.check.api.domains.comment.entity.Comment;
-import com.example.check.api.domains.comment.service.CommentCreator;
 import com.example.check.api.domains.todo.entity.Todo;
 import com.example.check.api.domains.todo.repository.TodoRepository;
-import com.example.check.web.v1.todo.dto.TodoSearchDto;
 import com.example.check.web.v1.todo.dto.TodoSelectDto;
 import lombok.extern.log4j.Log4j2;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -56,11 +53,10 @@ class TodoSelectorTest {
         }
     }
 
-
     @Test
-    public void TODO_SEARCH_TODO2_TEST() {
+    public void TODO_SEARCH_TODO_TEST() {
         List<TodoSelectDto> findTodos = todoSelector.searchTodo("1");
 
-        assertThat(findTodos.size()).isEqualTo(1);
+        assertThat(findTodos.size()).isGreaterThan(0);
     }
 }

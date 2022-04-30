@@ -41,6 +41,7 @@ public class Todo extends DateEntity {
     @Builder.Default
     private List<Comment> comments = new ArrayList<>();
 
+    // 테스트전용 - 실제 API에서는 사용하지 않는다.
     public Todo(Attach attach) {
         this.attach = attach;
         this.content = "default content1";
@@ -50,6 +51,10 @@ public class Todo extends DateEntity {
 
     public void addComments(Comment comment) {
         this.comments.add(comment);
+    }
+    // 테스트전용 - 실제 API에서는 사용하지 않는다.
+    public void addAttach(Attach attach) {
+        this.attach = attach;
     }
 
     public void changeContent(String content) {
