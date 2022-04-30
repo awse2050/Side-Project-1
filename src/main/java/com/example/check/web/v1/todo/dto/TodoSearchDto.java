@@ -2,11 +2,13 @@ package com.example.check.web.v1.todo.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
 
+@EqualsAndHashCode(of = "todoId")
 @ToString
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TodoSearchDto {
