@@ -1,12 +1,9 @@
 package com.example.check.api.domains.todo.repository;
 
 import com.example.check.api.domains.todo.entity.Todo;
-import com.example.check.web.v1.todo.dto.QTodoSearchDto;
-import com.example.check.web.v1.todo.dto.TodoSearchDto;
 import com.example.check.web.v1.todo.dto.TodoSelectDto;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +19,6 @@ import static com.example.check.api.domains.comment.entity.QComment.comment;
 import static com.example.check.api.domains.todo.entity.QTodo.todo;
 
 @Repository
-@Log4j2
 public class TodoQueryRepository extends QuerydslRepositorySupport {
 
     private final JPAQueryFactory jpaQueryFactory;
@@ -45,47 +41,32 @@ public class TodoQueryRepository extends QuerydslRepositorySupport {
         return new PageImpl<>(todos, pageable, todos.size());
     }
 
-    public List<TodoSelectDto> todosFindAll() {
-        List<Todo> todos = jpaQueryFactory.selectDistinct(todo)
-                .from(todo)
+    public List<TodoSelectDto> findTodos() {
+        List<Todo> todos = jpaQueryFactory
+                .selectFrom(todo).distinct()
                 .leftJoin(todo.comments, comment).fetchJoin()
                 .leftJoin(todo.attach, attach).fetchJoin()
                 .orderBy(todo.id.asc())
                 .fetch();
 
-        return todos.stream()
-                .map(todo -> todo.bindToDto())
-                .collect(Collectors.toList());
+        return formatResult(todos);
     }
 
-    /*
-        DTO 를 통한 처리 방식.
-        fetchJoin() 을 쓸수 없다.
-        fetch join을 사용하는 이유는 엔티티 상태에서 엔티티 그래프를 참조하기 위해서 사용하는 것.
-        따라서 당연히 엔티티가 아닌 DTO 상태로 조회하는 것은 불가능.
-        그냥 join만 선언할 것.
-     */
-    // attach 처리필요.
-    public List<TodoSearchDto> searchTodo(String searchContent) {
-
-        List<TodoSearchDto> todos = jpaQueryFactory
-                .select(new QTodoSearchDto(
-                        todo.id,
-                        todo.content,
-                        todo.writer,
-                        todo.checked,
-                        comment.id,
-                        comment.content,
-                        comment.writer,
-                        comment.regDate
-                ))
-                .from(todo)
+    public List<TodoSelectDto> searchTodo(String searchContent) {
+        List<Todo> todos = jpaQueryFactory
+                .selectFrom(todo).distinct()
                 .leftJoin(todo.comments, comment)
                 .where(isContainsContent(searchContent))
                 .orderBy(todo.id.desc())
                 .fetch();
 
-        return todos;
+        return formatResult(todos);
+    }
+
+    private List<TodoSelectDto> formatResult(List<Todo> todos) {
+        return  todos.stream()
+                .map(todo -> todo.bindToDto())
+                .collect(Collectors.toList());
     }
 
     private BooleanExpression isContainsContent(String searchContent) {

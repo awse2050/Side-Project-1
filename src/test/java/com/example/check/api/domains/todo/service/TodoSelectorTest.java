@@ -4,8 +4,10 @@ import com.example.check.api.domains.comment.entity.Comment;
 import com.example.check.api.domains.comment.service.CommentCreator;
 import com.example.check.api.domains.todo.entity.Todo;
 import com.example.check.api.domains.todo.repository.TodoRepository;
+import com.example.check.web.v1.todo.dto.TodoSearchDto;
 import com.example.check.web.v1.todo.dto.TodoSelectDto;
 import lombok.extern.log4j.Log4j2;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Log4j2
@@ -36,10 +40,7 @@ class TodoSelectorTest {
                 for(int i=0; i<=5; i++) {
                     entity.addComments(Comment.builder().content("안녕하세요."+i).writer("작성자"+i).todo(entity).build());
                 }
-                log.info("todo.... : {}", entity);
-                entity.getComments().forEach(i -> log.info("comment : {}", i));
                 todoRepository.save(entity);
-            log.info("count : {}", todoRepository.count());
             }
         log.info("complete..");
     }
@@ -53,5 +54,13 @@ class TodoSelectorTest {
         for (TodoSelectDto todo : all) {
             log.info(todo);
         }
+    }
+
+
+    @Test
+    public void TODO_SEARCH_TODO2_TEST() {
+        List<TodoSelectDto> findTodos = todoSelector.searchTodo("1");
+
+        assertThat(findTodos.size()).isEqualTo(1);
     }
 }

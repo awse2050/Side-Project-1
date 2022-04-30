@@ -36,4 +36,11 @@ public class TodoApiController {
         List<TodoSelectDto> dtoList = todoSelector.findAll();
         return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
+
+    @GetMapping("/{content}")
+    public ResponseEntity<List<TodoSelectDto>> search(@PathVariable("content") String searchContent) {
+        List<TodoSelectDto> dtoList = todoSelector.searchTodo(searchContent);
+        return new ResponseEntity<>(dtoList, HttpStatus.OK);
+    }
+
 }
