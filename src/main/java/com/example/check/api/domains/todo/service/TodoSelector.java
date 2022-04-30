@@ -1,7 +1,6 @@
 package com.example.check.api.domains.todo.service;
 
 import com.example.check.api.domains.todo.repository.TodoQueryRepository;
-import com.example.check.web.v1.todo.dto.TodoSearchDto;
 import com.example.check.web.v1.todo.dto.TodoSelectDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
