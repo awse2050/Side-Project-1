@@ -1,6 +1,7 @@
 package com.example.check.web.v1.todo.controller;
 
 import com.example.check.api.domains.todo.service.TodoCreator;
+import com.example.check.api.domains.todo.service.TodoDeleter;
 import com.example.check.api.domains.todo.service.TodoSelector;
 import com.example.check.web.v1.todo.dto.TodoCreateDto;
 import com.example.check.web.v1.todo.dto.TodoSelectDto;
@@ -22,6 +23,7 @@ public class TodoApiController {
 
     private final TodoCreator todoCreator;
     private final TodoSelector todoSelector;
+    private final TodoDeleter todoDeleter;
 
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> create(@RequestBody @Validated TodoCreateDto createDto) {
@@ -37,10 +39,15 @@ public class TodoApiController {
         return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
 
-    @GetMapping("/{content}")
+    @GetMapping("/search/{content}")
     public ResponseEntity<List<TodoSelectDto>> search(@PathVariable("content") String searchContent) {
         List<TodoSelectDto> dtoList = todoSelector.searchTodo(searchContent);
         return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
 
+    @DeleteMapping("/{todoId}")
+    public ResponseEntity<String> remove(@PathVariable Long todoId) {
+        todoDeleter.removeTodo(todoId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
