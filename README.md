@@ -83,3 +83,27 @@ DB를 조회한 것 처럼 Comments 갯수만큼의 객체로 받았다.
 이 경우 QueryDSL에서 `Distinct` 를 추가해서 해결을 하긴 했으나,
 
 처리의 경우 이렇게 되는게 맞는것 같고, `Distinct` 를 추가설정하는 게 맞았던듯 하다.
+
+
+4. JWT 인증 방식 이후 사용자의 정보를 사용해야할 경우 처리 방식 ( 문제발생 - 05.04 )
+
+현재 `JWT Token` 을 `Header` 에서 가져온 후 `Token` 의 `payload` 에 담긴 `email` 을 가지고 
+
+한번 더 존재하는 사용자인지 확인을 하고 있어 한번의 조회쿼리가 추가로 발생하고 있음.
+
+```java
+@PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> create(@RequestBody @Validated TodoCreateDto createDto,
+                                         @RequestHeader(HttpHeaders.AUTHORIZATION) String jwtToken) {
+        String requestEmail = JwtProvider.getSubject(jwtToken.replace("Bearer ", ""));
+        Member findMember = memberDetailsService.findMember(requestEmail);
+
+        Long id = todoCreator.createTodo(createDto, findMember);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+```
+
+검색되는 블로그에서는 `SecurityContextHolder` 를 사용하고 있음. 
+
+현재 사용하는 방식은 `SecurityContextHolder` 에 저장하지 않는 방식으로 사용 중이다.
