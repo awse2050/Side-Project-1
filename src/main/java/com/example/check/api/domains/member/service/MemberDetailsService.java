@@ -28,8 +28,7 @@ public class MemberDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         log.info("email : {}", email);
 
-        Member findMember = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
+        Member findMember = findMember(email);
 
         log.info("findMember : {} ", findMember);
 
@@ -43,5 +42,10 @@ public class MemberDetailsService implements UserDetailsService {
         log.info("loginCheckDto : {}", responseLoginDto);
 
         return responseLoginDto;
+    }
+
+    public Member findMember(String email) {
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
     }
 }

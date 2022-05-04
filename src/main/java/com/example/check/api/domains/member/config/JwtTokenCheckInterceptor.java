@@ -23,16 +23,16 @@ public class JwtTokenCheckInterceptor implements HandlerInterceptor {
                              Object handler) throws Exception {
         log.info("preHandle....");
 
-        String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-        log.info("header : {}", header);
-        if(Objects.isNull(header) || !header.contains(AUTHENTICATION_HEADER_PREFIX) || header.isEmpty()){
+        String headerWithJwtToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+        log.info("headerWithJwtToken : {}", headerWithJwtToken);
+        if(Objects.isNull(headerWithJwtToken) || !headerWithJwtToken.contains(AUTHENTICATION_HEADER_PREFIX)){
             // TODO : 예외발생
-            log.info("Objects.isNull(header) || !header.contains(AUTHENTICATION_HEADER_PERFIX) || header.isEmpty() ..");
+            log.info("Objects.isNull(header) || !header.contains(AUTHENTICATION_HEADER_PERFIX) ");
             response.sendError(HttpServletResponse.SC_FORBIDDEN);
             return false;
         }
 
-        String token = header.replace("Bearer ", "");
+        String token = JwtProvider.getEncodedEmail(headerWithJwtToken);
         log.info("token ... : {}", token);
         boolean jwtValid = JwtProvider.isJwtValid(token);
         log.info("jwtValid : {}", jwtValid);

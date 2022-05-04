@@ -1,5 +1,5 @@
 
-### Checker  ( Last Update - 22.04.25 )
+### Checker  ( Last Update - 22.05.04 )
 
 일정관리 & To-do List Practice Project
 
@@ -13,7 +13,7 @@
 
 - H2 (Local)
 
-- Spring Security (JWT)
+- Spring Security (JWT) - 매핑 단계
 
 - Attach ( S3로 변경 )
 

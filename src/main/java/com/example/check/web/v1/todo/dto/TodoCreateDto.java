@@ -1,5 +1,6 @@
 package com.example.check.web.v1.todo.dto;
 
+import com.example.check.api.domains.member.entity.Member;
 import com.example.check.api.domains.todo.entity.Todo;
 import lombok.*;
 
@@ -22,6 +23,15 @@ public class TodoCreateDto {
         return Todo.builder()
                 .content(this.content)
                 .writer(this.writer)
+                .checked(this.checked)
+                .attach(null)
+                .build();
+    }
+
+    public Todo bindToEntity(Member member) {
+        return Todo.builder()
+                .content(this.content)
+                .writer(member.getName())
                 .checked(this.checked)
                 .attach(null)
                 .build();

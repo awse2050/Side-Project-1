@@ -14,6 +14,7 @@ public final class JwtProvider {
 
     private static final long EXPIRE_TIME = 86_400_000;
     private static final String SECRET_KEY = "login_token";
+    private static final String AUTHENTICATION_HEADER_PREFIX = "Bearer ";
 
     public static String createToken(String email) {
         return Jwts.builder()
@@ -31,11 +32,12 @@ public final class JwtProvider {
         String subject = getSubject(jwtToken);
 
         return subject != null && !subject.isEmpty();
-//        if(subject == null || subject.isEmpty()) {
-//            return false;
-//        }
-//
-//        return true;
+    }
+
+    public static String getSubject(String jwtToken) {
+        String subject = getClaims(jwtToken).getSubject();
+        log.info("subject : {}", subject);
+        return subject;
     }
 
     private static Jws<Claims> getParsedClaimsJws(String jwtToken) {
@@ -49,9 +51,7 @@ public final class JwtProvider {
         return claimsJws.getBody();
     }
 
-    private static String getSubject(String jwtToken) {
-        String subject = getClaims(jwtToken).getSubject();
-        log.info("subject : {}", subject);
-        return subject;
+    public static String getEncodedEmail(String jwtToken) {
+        return jwtToken.replace(AUTHENTICATION_HEADER_PREFIX, "");
     }
 }
