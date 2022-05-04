@@ -35,24 +35,24 @@ class CommentCreatorTest {
 
     @BeforeEach
     public void TODO_INSERT() {
-        todoRepository.save(Todo.builder().content("안녕하세요").checked(false).writer("작성자1").build());
+//        todoRepository.save(Todo.builder().content("안녕하세요").checked(false).writer("작성자1").build());
     }
 
     @DisplayName("Comment Create Test")
     @Test
     public void COMMENT_CREATE_TEST() {
-
-        CommentCreateDto dto = CommentCreateDto.builder()
-                .todoId(1L)
-                .content("확인했습니다.")
-                .writer("테스터1")
-                .build();
-
-        Long commentId =  commentCreator.createComment(dto);
-
-        Comment comment = commentRepository.findById(commentId).orElse(null);
-
-        assertThat(comment).isNotNull();
+//
+//        CommentCreateDto dto = CommentCreateDto.builder()
+//                .todoId(1L)
+//                .content("확인했습니다.")
+//                .writer("테스터1")
+//                .build();
+//
+//        Long commentId =  commentCreator.createComment(dto);
+//
+//        Comment comment = commentRepository.findById(commentId).orElse(null);
+//
+//        assertThat(comment).isNotNull();
 //        assertThat(comment.getTodo().getContent()).isEqualTo("안녕하세요");
     }
 

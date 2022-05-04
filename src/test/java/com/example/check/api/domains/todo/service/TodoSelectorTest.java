@@ -27,19 +27,19 @@ class TodoSelectorTest {
 
     @BeforeEach
     public void BEFORE_EACH_CREATE() {
-        log.info("before create..");
-            for(int j=0; j<2; j++) {
-                Todo entity = Todo.builder()
-                        .content("todo"+j)
-                        .writer("writer"+j)
-                        .checked(false)
-                        .build();
-                for(int i=0; i<=5; i++) {
-                    entity.addComments(Comment.builder().content("안녕하세요."+i).writer("작성자"+i).todo(entity).build());
-                }
-                todoRepository.save(entity);
-            }
-        log.info("complete..");
+//        log.info("before create..");
+//            for(int j=0; j<2; j++) {
+//                Todo entity = Todo.builder()
+//                        .content("todo"+j)
+//                        .writer("writer"+j)
+//                        .checked(false)
+//                        .build();
+//                for(int i=0; i<=5; i++) {
+//                    entity.addComments(Comment.builder().content("안녕하세요."+i).writer("작성자"+i).todo(entity).build());
+//                }
+//                todoRepository.save(entity);
+//            }
+//        log.info("complete..");
     }
 
     @DisplayName("Todo Selector Find All Test")
