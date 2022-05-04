@@ -53,7 +53,7 @@ public class Todo extends DateEntity {
     // 삭제예정
     public Todo(Attach attach, Member member) {
         this.attach = attach;
-        this.content = "default content1";
+        this.content = attach.getUploadFileName();
         this.member = member;
         attach.setTodo(this);
     }

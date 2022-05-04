@@ -34,7 +34,7 @@ public class TodoApiController {
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> create(@RequestBody @Validated TodoCreateDto createDto,
                                          @RequestHeader(HttpHeaders.AUTHORIZATION) String jwtToken) {
-        String requestEmail = JwtProvider.getSubject(jwtToken.replace("Bearer ", ""));
+        String requestEmail = JwtProvider.getSubject(JwtProvider.getEncodedEmail(jwtToken));
         log.info("request Email : {}", requestEmail);
 
         Member findMember = memberDetailsService.findMember(requestEmail);

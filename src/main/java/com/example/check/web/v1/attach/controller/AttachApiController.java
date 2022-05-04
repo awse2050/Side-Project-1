@@ -28,9 +28,10 @@ public class AttachApiController {
 
     @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<CreatedAttachFileDto> upload(@RequestParam MultipartFile attachFile,
-                                                       @RequestHeader(HttpHeaders.AUTHORIZATION) String jwtToken) throws IOException{
+                                                       @RequestHeader(HttpHeaders.AUTHORIZATION) String jwtToken)
+                                                        throws IOException{
 
-        String requestEmail = JwtProvider.getSubject(jwtToken.replace("Bearer ", ""));
+        String requestEmail = JwtProvider.getSubject(JwtProvider.getEncodedEmail(jwtToken));
         log.info("request Email : {}", requestEmail);
 
         Member findMember = memberDetailsService.findMember(requestEmail);
