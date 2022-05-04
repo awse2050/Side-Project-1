@@ -1,6 +1,7 @@
 package com.example.check.web.v1.comment.dto;
 
 import com.example.check.api.domains.comment.entity.Comment;
+import com.example.check.api.domains.member.entity.Member;
 import com.example.check.api.domains.todo.entity.Todo;
 import lombok.*;
 
@@ -19,13 +20,11 @@ public class CommentCreateDto {
     private Long todoId;
     @NotNull(message = "답글을 정확히 입력하세요.")
     private String content;
-    @NotEmpty(message = "로그인이 필요합니다.")
-    private String writer;
 
-    public Comment bindToEntity(Todo todo) {
+    public Comment bindToEntity(Todo todo, Member member) {
         return Comment.builder()
                 .content(this.content)
-                .writer(this.writer)
+                .member(member)
                 .todo(todo)
                 .build();
     }

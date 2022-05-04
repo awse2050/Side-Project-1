@@ -17,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -35,7 +34,6 @@ public class TodoApiController {
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> create(@RequestBody @Validated TodoCreateDto createDto,
                                          @RequestHeader(HttpHeaders.AUTHORIZATION) String jwtToken) {
-
         String requestEmail = JwtProvider.getSubject(jwtToken.replace("Bearer ", ""));
         log.info("request Email : {}", requestEmail);
 

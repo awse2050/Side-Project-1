@@ -17,12 +17,12 @@ public class TodoCreator {
 
     private final TodoRepository todoRepository;
 
-    @Transactional
-    public Long createTodo(TodoCreateDto createDto) {
-        Todo entity = createDto.bindToEntity();
-
-        return todoRepository.save(entity).getId();
-    }
+//    @Transactional
+//    public Long createTodo(TodoCreateDto createDto) {
+//        Todo entity = createDto.bindToEntity();
+//
+//        return todoRepository.save(entity).getId();
+//    }
 
     @Transactional
     public Long createTodo(TodoCreateDto createDto, Member member) {

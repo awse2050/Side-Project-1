@@ -29,8 +29,9 @@ public class Todo extends DateEntity {
     @Column(nullable = false) // text
     private String content; // 내용
 
-    @Column(name = "MEMBER_ID", nullable = false)
-    private String writer;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MEMBER_ID", nullable = false)
+    private Member member;
 
     @Convert(converter = TodoCheckedConverter.class)
     private boolean checked;
@@ -43,17 +44,17 @@ public class Todo extends DateEntity {
     private List<Comment> comments = new ArrayList<>();
 
     // 테스트전용 - 실제 API에서는 사용하지 않는다. 삭제예정
-    public Todo(Attach attach) {
-        this.attach = attach;
-        this.content = "default content1";
-        this.writer = "default writer1";
-        attach.setTodo(this);
-    }
+//    public Todo(Attach attach) {
+//        this.attach = attach;
+//        this.content = "default content1";
+//        this.writer = "default writer1";
+//        attach.setTodo(this);
+//    }
     // 삭제예정
     public Todo(Attach attach, Member member) {
         this.attach = attach;
         this.content = "default content1";
-        this.writer = member.getName();
+        this.member = member;
         attach.setTodo(this);
     }
 
@@ -78,6 +79,6 @@ public class Todo extends DateEntity {
     }
 
     public TodoDto bindToTodoDto() {
-        return new TodoDto(this.id, this.content, this.writer, this.checked);
+        return new TodoDto(this.id, this.content, this.member.getName(), this.checked);
     }
 }

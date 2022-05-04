@@ -6,6 +6,7 @@ import com.example.check.web.WebTestSetUp;
 import com.example.check.web.v1.comment.dto.CommentCreateDto;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,12 @@ class CommentApiControllerTest extends WebTestSetUp {
 
     @BeforeEach
     public void INSERT_BEFORE() {
-        todoRepository.save(Todo.builder().writer("작성자1").content("오늘할일 입니다.").checked(false).build());
+//        todoRepository.save(Todo.builder().writer("작성자1").content("오늘할일 입니다.").checked(false).build());
     }
 
     @DisplayName("Comment Create API Success Test")
     @Test
+    @Disabled
     void COMMENT_CREATE_API_SUCCESS_TEST() throws Exception {
 
         mockMvc.perform(post("/v1/comment")
@@ -40,6 +42,7 @@ class CommentApiControllerTest extends WebTestSetUp {
     }
     @DisplayName("Comment Create API Fail Test")
     @Test
+    @Disabled
     void COMMENT_CREATE_API_FAIL_TEST() throws Exception {
 
         mockMvc.perform(post("/v1/comment")

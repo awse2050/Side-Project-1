@@ -42,26 +42,26 @@ class TodoDeleterTest {
     @BeforeEach
     public void BEFORE_EACH_CREATE() {
         log.info("before create..");
-        for(int j=0; j<10; j++) {
-            Todo entity = Todo.builder()
-                    .content("todo"+j)
-                    .writer("writer"+j)
-                    .checked(false)
-                    .build();
-            for(int i=0; i<=5; i++) {
-                entity.addComments(Comment.builder().content("안녕하세요."+i).writer("작성자"+i).todo(entity).build());
-            }
-
-            if(j%2==0) {
-                log.info("attach ....");
-                Attach attach = new Attach("uploadFileName"+j , "fileName"+j);
-                attach.setTodo(entity);
-
-                entity.addAttach(attach);
-            }
-
-            todoRepository.save(entity);
-        }
+//        for(int j=0; j<10; j++) {
+//            Todo entity = Todo.builder()
+//                    .content("todo"+j)
+//                    .writer("writer"+j)
+//                    .checked(false)
+//                    .build();
+//            for(int i=0; i<=5; i++) {
+//                entity.addComments(Comment.builder().content("안녕하세요."+i).writer("작성자"+i).todo(entity).build());
+//            }
+//
+//            if(j%2==0) {
+//                log.info("attach ....");
+//                Attach attach = new Attach("uploadFileName"+j , "fileName"+j);
+//                attach.setTodo(entity);
+//
+//                entity.addAttach(attach);
+//            }
+//
+//            todoRepository.save(entity);
+//        }
         log.info("complete..");
     }
 

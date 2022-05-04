@@ -2,6 +2,7 @@ package com.example.check.api.domains.comment.service;
 
 import com.example.check.api.domains.comment.entity.Comment;
 import com.example.check.api.domains.comment.repository.CommentRepository;
+import com.example.check.api.domains.member.entity.Member;
 import com.example.check.api.domains.todo.entity.Todo;
 import com.example.check.api.domains.todo.exception.TodoNotFoundException;
 import com.example.check.api.domains.todo.repository.TodoRepository;
@@ -17,13 +18,27 @@ public class CommentCreator {
     private final CommentRepository commentRepository;
     private final TodoRepository todoRepository;
 
-    @Transactional
-    public Long createComment(CommentCreateDto dto) {
+//    @Transactional
+//    public Long createComment(CommentCreateDto dto) {
+//
+//        Todo todo = todoRepository.findById(dto.getTodoId())
+//                .orElseThrow(() -> new TodoNotFoundException("존재하지 않는 할일 입니다."));
+//
+//        Comment comment = dto.bindToEntity(todo);
+//
+//        Long commentId = commentRepository.save(comment).getId();
+//
+//        return commentId;
+//    }
 
+    @Transactional
+    public Long createComment(CommentCreateDto dto, Member member) {
+
+        // TODO : N+1 문제로 변경 필요.
         Todo todo = todoRepository.findById(dto.getTodoId())
                 .orElseThrow(() -> new TodoNotFoundException("존재하지 않는 할일 입니다."));
 
-        Comment comment = dto.bindToEntity(todo);
+        Comment comment = dto.bindToEntity(todo, member);
 
         Long commentId = commentRepository.save(comment).getId();
 

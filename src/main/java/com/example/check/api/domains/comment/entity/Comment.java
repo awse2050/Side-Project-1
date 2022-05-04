@@ -1,5 +1,6 @@
 package com.example.check.api.domains.comment.entity;
 
+import com.example.check.api.domains.member.entity.Member;
 import com.example.check.api.domains.todo.entity.Todo;
 import com.example.check.api.util.entity.DateEntity;
 import com.example.check.web.v1.comment.dto.CommentResponses;
@@ -23,8 +24,9 @@ public class Comment extends DateEntity {
     @Column(name = "CONTENT", nullable = false)
     private String content;
 
-    @Column(nullable = false)
-    private String writer;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MEMBER_ID", nullable = false)
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TODO_ID")
@@ -37,7 +39,7 @@ public class Comment extends DateEntity {
     public CommentResponses bindToDto() {
         return new CommentResponses(this.id,
                 this.content,
-                this.writer,
+                this.member.getName(),
                 this.getModDate()
         );
     }
